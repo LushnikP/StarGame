@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.screen.MenuScreen;
 
 public class StarGame extends Game {
