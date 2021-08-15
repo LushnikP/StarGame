@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
+import com.mygdx.game.pool.BulletPool;
 
 public class MainShip extends Sprite {
 
@@ -25,9 +26,22 @@ public class MainShip extends Sprite {
     private int rightPointer = INVALID_POINTER;
 
     private Rect worldBounce;
+    private BulletPool bulletPool;
+    private TextureRegion bulletRegion;
+    private  Vector2 bulletPos;
+    private Vector2 bulletV;
+    private float bulletHeight;
+    private int bulletDamage;
 
-    public MainShip(TextureAtlas atlas) {
+
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+        this.bulletPool = bulletPool;
+        bulletRegion = atlas.findRegion("bulletMainShip");
+        bulletPos = new Vector2();;
+        bulletV = new Vector2(0, 0.5f);
+        bulletHeight = 0.01f;
+        bulletDamage = 1;
     }
 
     @Override
@@ -103,6 +117,9 @@ public class MainShip extends Sprite {
                 pressedRight = true;
                 moveRight();
                 break;
+            case Input.Keys.UP:
+                shoot();
+                break;
         }
         return false;
     }
@@ -137,5 +154,11 @@ public class MainShip extends Sprite {
 
     private void stop(){
         v.setZero();
+    }
+
+    private void shoot(){
+        Bullet bullet = bulletPool.obtain();
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
+        bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounce, bulletDamage);
     }
 }
