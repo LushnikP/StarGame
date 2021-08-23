@@ -5,9 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
+import com.mygdx.game.pool.ExplosionPool;
 import com.mygdx.game.sprite.Bullet;
+import com.mygdx.game.sprite.ExitButton;
+import com.mygdx.game.sprite.Explosion;
 
-public class Ship extends Sprite{
+public abstract class Ship extends Sprite{
 
     private static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
 
@@ -16,6 +19,7 @@ public class Ship extends Sprite{
 
     protected Rect worldBounce;
     protected BulletPool bulletPool;
+    protected ExplosionPool explosionPool;
     protected TextureRegion bulletRegion;
     protected  Vector2 bulletPos;
     protected Vector2 bulletV;
@@ -70,10 +74,26 @@ public class Ship extends Sprite{
             damageAnimateTimer = 0f;
     }
 
+    public abstract boolean isBulletCollision(Bullet bullet);
+
+    public int getBulletDamage() {
+        return bulletDamage;
+    }
+
     private void shoot(){
         Bullet bullet = bulletPool.obtain();
-
         bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounce, bulletDamage);
         bulletSound.play();
+    }
+
+    private void boom(){
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(pos, getHeight());
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        boom();
     }
 }
