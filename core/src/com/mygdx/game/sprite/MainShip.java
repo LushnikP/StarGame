@@ -1,4 +1,4 @@
-package com.mygdx.game.sprite;
+ package com.mygdx.game.sprite;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;

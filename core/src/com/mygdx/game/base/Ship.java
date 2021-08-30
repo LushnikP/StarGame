@@ -96,4 +96,8 @@ public abstract class Ship extends Sprite{
         super.destroy();
         boom();
     }
+
+    public int getHp() {
+        return hp;
+    }
 }
