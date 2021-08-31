@@ -94,10 +94,16 @@ public abstract class Ship extends Sprite{
     @Override
     public void destroy() {
         super.destroy();
-        boom();
+        if(hp <= 0){
+            boom();
+        }
     }
 
     public int getHp() {
         return hp;
+    }
+
+    public void setHp(int heal){
+        hp += heal;
     }
 }
