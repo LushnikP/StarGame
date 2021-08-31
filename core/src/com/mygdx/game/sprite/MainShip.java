@@ -5,7 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.base.BaseBuff;
 import com.mygdx.game.base.Ship;
+import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.pool.BulletPool;
 import com.mygdx.game.pool.ExplosionPool;
@@ -18,6 +20,8 @@ public class MainShip extends Ship {
     private static final float BUTTON_MARGIN = 0.05f;
     private static final int INVALID_POINTER = -1;
     private static final float RELOAD_INTERVAL = 0.2f;
+    public final int RAM_DAMAGE = 5;
+
 
     private static final float PADDING = 0.01f;
 
@@ -157,6 +161,14 @@ public class MainShip extends Ship {
                 || bullet.getLeft() > getRight()
                 || bullet.getBottom() > pos.y
                 || bullet.getTop() < getBottom()
+        );
+    }
+    public boolean isCollision(BaseBuff baseBuff){
+        return !(
+                baseBuff.getRight() < getLeft()
+                        || baseBuff.getLeft() > getRight()
+                        || baseBuff.getBottom() > pos.y
+                        || baseBuff.getTop() < getBottom()
         );
     }
 

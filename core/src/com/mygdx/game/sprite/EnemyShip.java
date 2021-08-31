@@ -10,6 +10,8 @@ import com.mygdx.game.pool.ExplosionPool;
 
 public class EnemyShip extends Ship {
 
+    private float score;
+
     public EnemyShip(Rect worldBounce, BulletPool bulletPool, ExplosionPool explosionPool) {
         super();
         this.worldBounce = worldBounce;
@@ -26,9 +28,10 @@ public class EnemyShip extends Ship {
         } else {
             reloadTimer = reloadInterval * 0.8f;
         }
-        if(getBottom() < worldBounce.getBottom()){
+        if(getTop() < worldBounce.getBottom()){
             destroy();
         }
+
     }
 
     public void set(
@@ -41,7 +44,8 @@ public class EnemyShip extends Ship {
             Sound bulletSound,
             float reloadInterval,
             float height,
-            int hp
+            int hp,
+            float score
     ){
         this.regions = regions;
         this.v0.set(v0);
@@ -53,12 +57,17 @@ public class EnemyShip extends Ship {
         this.reloadInterval = reloadInterval;
         setHeightProportion(height);
         this.hp = hp;
+        this.score = score;
         v.set(0, -0.4f);
     }
 
     public void setPos(float x, float y){
         pos.set(x, y);
         bulletPos.set(pos.x, pos.y - getHalfHeight());
+    }
+
+    public float getScore() {
+        return score;
     }
 
     @Override
@@ -76,4 +85,6 @@ public class EnemyShip extends Ship {
         super.destroy();
         reloadTimer = 0f;
     }
+
+
 }
